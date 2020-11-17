@@ -39,9 +39,14 @@ class ApplePackageServiceProvider extends ServiceProvider
         ], 'config');
 
         //数据库表
-        $this->publishes([
-            __DIR__ . DIRECTORY_SEPARATOR . 'database' => base_path('database/migrations'),
-        ], 'database');
+        if ($this->app->runningInConsole()) {
+            $this->registerMigrations();
+
+            $this->publishes([
+                __DIR__.'/../database/migrations' => database_path('migrations'),
+            ], 'cwapp-migrations');
+        }
+
 
         $this->addMiddlewareAlias('cwapp.auth', CwAppAuthMiddleware::class);
         $this->addMiddlewareAlias('cwapp-api.auth', CwAppApiMiddleware::class);
