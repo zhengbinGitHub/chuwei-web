@@ -20,7 +20,9 @@ class ApplePackageServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->make('CwApp\Controllers\AppleController');
-        $this->loadViewsFrom(__DIR__.'/views', 'cwapp');
+        if (! $this->app->configurationIsCached()) {
+            $this->mergeConfigFrom(__DIR__.'/../config/cwapp.php', 'cwapp');
+        }
     }
 
     /**
@@ -28,15 +30,12 @@ class ApplePackageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'cwapp');
+
         // 把静态资源发布到laravel public/cwapp 目录下
         $this->publishes([
             __DIR__ . DIRECTORY_SEPARATOR . 'public' => public_path('cwapp'),
         ], 'public');
-
-        //发布配置文件到 laravel config/cwapp.php
-        $this->publishes([
-            __DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'cwapp.php' => config_path('cwapp.php'),
-        ], 'config');
 
         //数据库表
         if ($this->app->runningInConsole()) {
@@ -45,6 +44,10 @@ class ApplePackageServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'cwapp-migrations');
+
+            $this->publishes([
+                __DIR__.'/../resources/views' => base_path('resources/views/vendor/cwapp'),
+            ], 'cwapp-views');
         }
 
 
