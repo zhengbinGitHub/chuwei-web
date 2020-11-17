@@ -1,0 +1,58 @@
+.layui-form-box {
+  width: 350px;
+  height: 350px;
+  background-color: #fff;
+  position: relative;
+}
+
+.layui-form {
+  padding: 25px 0;
+}
+
+.layui-form-label {
+  padding: 9px 0 !important;
+}
+
+.form-input-text {
+  margin-bottom: 15px;
+}
+
+.foo-bar {
+  width: 100%;
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+}
+
+.foo-bar .determine-btn {
+  width: 60px;
+  height: 30px;
+  line-height: 28px;
+  border-radius: 2px;
+  font-weight: 400;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  margin: 0 6px;
+  border: 1px solid #4085cc;
+  background-color: #4085cc;
+  color: white;
+}
+
+.foo-bar .cancel {
+  width: 60px;
+  height: 30px;
+  line-height: 28px;
+  border-radius: 2px;
+  font-weight: 400;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  margin: 0 6px;
+  border: 1px solid #0079fe;
+  color: #0079fe;
+}
+
+.layui-form-checkbox span {
+  height: auto;
+}

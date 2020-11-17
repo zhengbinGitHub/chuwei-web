@@ -1,0 +1,20 @@
+{
+    "name": "maczheng/cwapp",
+    "description": "系统应用功能",
+    "authors": [
+        {
+            "name": "zhengbinGitHub",
+            "email": "122606861@qq.com"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "src/database"
+        ],
+        "psr-0": {
+            "CwApp\\": "src/"
+        }
+    },
+    "require": {},
+    "minimum-stability": "dev"
+}

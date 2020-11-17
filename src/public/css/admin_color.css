@@ -1,0 +1,78 @@
+.layui-card {
+  background-color: #f2f2f2 !important;
+}
+
+.layui-card-header {
+  background-color: #fff;
+}
+
+.layui-card-body {
+  background-color: #fff;
+}
+
+.order-info {
+  width: 100%;
+  height: 40px;
+  padding-left: 15px;
+  line-height: 40px;
+}
+
+.wait-order {
+  background: #fff;
+  border-radius: 4px;
+  height: 30px;
+  line-height: 1;
+  width: 80px;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-right: 15px;
+  padding: 3px 10px;
+  outline: none;
+  border: 0;
+  background-color: #83C1FF;
+  margin-left: 15px;
+}
+
+.layui-tab-card {
+  background-color: #fff;
+}
+
+.col-xs-6-5 {
+  width: calc(50% - 5px);
+  float: left;
+}
+
+.over_hide {
+  overflow: hidden;
+}
+
+.img_width {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
+
+.server-btn {
+  border-radius: 3px;
+  color: #999999;
+  border: 1px solid #d7d7d7;
+  padding: 3px 15px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.server-btn-sel {
+  border-radius: 3px;
+  color: #0079FE;
+  border: 1px solid #d7d7d7;
+  padding: 3px 15px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.layui-btn-sm {
+  color: #0079FE;
+  font-weight: bold;
+}
