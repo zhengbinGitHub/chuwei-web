@@ -7,10 +7,12 @@
             "email": "122606861@qq.com"
         }
     ],
+    "require": {
+        "illuminate/database": "~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0",
+        "illuminate/http": "~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0",
+        "illuminate/support": "~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0"
+    },
     "autoload": {
-        "classmap": [
-            "src/database"
-        ],
         "psr-0": {
             "CwApp\\": "src/"
         }

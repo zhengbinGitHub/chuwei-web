@@ -65,4 +65,14 @@ class ApplePackageServiceProvider extends ServiceProvider
 
         return $router->middleware($name, $class);
     }
+
+    /**
+     * Register Passport's migration files.
+     *
+     * @return void
+     */
+    protected function registerMigrations()
+    {
+        return $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+    }
 }
