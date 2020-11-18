@@ -24,7 +24,8 @@ class ApplePackageManager
      */
     public function getSignature(array $params)
     {
-        return $this->_getSign($params, $this->config['app_secret']);
+        $appSecret = $params['app_secret'];
+        return $this->_getSign($params, $appSecret);
     }
 
     /**
