@@ -48,7 +48,6 @@
                     <div class="layui-input-block">
                         <div class="layui-footer" style="left: 0;">
                             <button type="submit" lay-submit="" class="layui-btn layui-btn-normal">确 认</button>
-                            <a class="layui-btn layui-btn-primary" id="layui-form-close"> 返回 </a>
                         </div>
                     </div>
                 </div>
