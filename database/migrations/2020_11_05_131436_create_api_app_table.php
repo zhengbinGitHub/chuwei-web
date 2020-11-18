@@ -20,7 +20,7 @@ class CreateApiAppTable extends Migration
                 $table->bigInteger('tenant_id')->index()->comment('商户ID');
                 $table->char('app_id', 32)->index()->nullable(false)->comment('应用ID');
                 $table->string('app_secret', 32)->nullable(false)->comment('应用KEY');
-                $table->char('platform', 10)->index()->nullable(false)->comment('平台');
+                $table->string('notify_url')->nullable(false)->comment('消息接受接口地址');
                 $table->tinyInteger('status')->default(1)->comment('状态 1开启 0关闭');
                 $table->timestamps();
             });

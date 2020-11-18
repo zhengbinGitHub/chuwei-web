@@ -25,7 +25,7 @@
                                 <div class="layui-input-block">
                                     <input type="text" value="{{$item->app_id}}" class="layui-input col-xs-3" placeholder="请输入应用AppID" lay-verify="required" name="apps[{{$key}}][app_id]">
                                     <input type="text" value="{{$item->app_secret}}" class="layui-input col-xs-3" placeholder="请输入应用AppSecret" style="margin-left:10px;" name="apps[{{$key}}][app_secret]">
-                                    <input type="text" value="{{$item->platform}}" class="layui-input col-xs-1" placeholder="请输入应用平台标示" style="margin-left:10px;" name="apps[{{$key}}][platform]">
+                                    <input type="text" value="{{$item->platform}}" class="layui-input col-xs-3" placeholder="请输入消息接收" style="margin-left:10px;" name="apps[{{$key}}][platform]">
                                     <a class="layui-btn C-marginLeft-10 J-voucher-delete"> 删 除</a>
                                 </div>
                             </div>
@@ -35,7 +35,7 @@
                                 <div class="layui-input-block">
                                     <input type="text" class="layui-input col-xs-3" placeholder="请输入应用AppID" lay-verify="required" name="apps[0][app_id]">
                                     <input type="text" class="layui-input col-xs-3" placeholder="请输入应用AppSecret" style="margin-left:10px;" name="apps[0][app_secret]">
-                                    <input type="text" class="layui-input col-xs-1" placeholder="请输入应用平台标示" style="margin-left:10px;" name="apps[0][platform]">
+                                    <input type="text" class="layui-input col-xs-3" placeholder="请输入消息接收" style="margin-left:10px;" name="apps[0][platform]">
                                     <a class="layui-btn C-marginLeft-10 J-voucher-delete"> 删 除</a>
                                 </div>
                             </div>

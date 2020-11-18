@@ -23,6 +23,11 @@ class ApplePackageServiceProvider extends ServiceProvider
         if (! $this->app->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__.'/../config/cwapp.php', 'cwapp');
         }
+
+        //注册应用
+        $this->app->singleton('cwapp', function($app){
+            return new ApplePackageManager($app['config']);
+        });
     }
 
     /**
@@ -77,5 +82,15 @@ class ApplePackageServiceProvider extends ServiceProvider
     protected function registerMigrations()
     {
         return $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['cwapp'];
     }
 }
