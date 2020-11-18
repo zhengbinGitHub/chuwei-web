@@ -23,5 +23,6 @@
             "main-dev": "1.0.2-dev"
         }
     },
-    "license": "MIT"
+    "license": "MIT",
+    "minimum-stability": "1.0.2"
 }
