@@ -18,6 +18,11 @@
             "CwApp\\": "src/"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.0.1-dev"
+        }
+    },
     "license": "MIT",
     "minimum-stability": "dev"
 }
