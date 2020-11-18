@@ -57,15 +57,22 @@ class AppleController extends Controller
         if(empty($datas['apps'])){
             return response()->json(['message' => '应用信息为空']);
         }
-        $params = [];
+        $params = $platform = [];
         foreach ($datas['apps'] as $key=>$item){
             if(empty($item['app_id']) || empty($item['app_secret']) || empty($item['platform'])){
                 ++$key;
                 return response()->json(['message' => "第{$key}个应用AppID、AppSecret、Platform信息为空"]);
             }
-            if(ApiApp::query()->where(['tenant_id' => $request->tenant_id, 'platform' => config('cwapp.app_platform')])->count()){
+            if($item['platform'] == config('cwapp.app_platform')
+                && ApiApp::query()->where(['tenant_id' => $request->tenant_id, 'platform' => config('cwapp.app_platform')])->count()){
                 continue 1;
             }
+            if(isset($platform[$item['platform']])){
+                ++$key;
+                return response()->json(['message' => "第{$key}个应用Platform信息重复"]);
+            }
+            $platform[$item['platform']] = $item['platform'];
+
             $params[$key] = [
                 'tenant_id' => $request->tenant_id,
                 'app_id' => $item['app_id'],
@@ -76,6 +83,7 @@ class AppleController extends Controller
                 'updated_at' => now()->toDateTimeString(),
             ];
         }
+        unset($platform);
         DB::beginTransaction();
         ApiApp::query()->where('tenant_id', $request->tenant_id)->whereNotIn('platform', [config('cwapp.app_platform')])->delete();
         if(ApiApp::query()->insert($params)){
