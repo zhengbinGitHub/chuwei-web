@@ -23,11 +23,11 @@ class AppleController extends Controller
     public function show(Request $request)
     {
         $info = ApiApp::query()
-            ->firstOrCreate(
+            ->updateOrCreate(
                 ['tenant_id' => $request->tenant_id, 'platform' => config('cwapp.app_platform')],
                 [
-                    'app_id' => $this->app_code(),
-                    'app_secret' => $this->app_code(),
+                    'app_id' => $this->app_code($request->tenant_id),
+                    'app_secret' => $this->app_code($request->tenant_id),
                 ]
             );
         return view('cwapp::apple-show', compact('info'));
@@ -98,9 +98,9 @@ class AppleController extends Controller
      * @param $length
      * @return string
      */
-    private function app_code($length = 10) {
+    private function app_code($tenantId, $length = 10) {
         $code = config('cwapp.app_prefix'). $this->make_aid($length) . uniqid();
-        return $code;
+        return $tenantId . $code;
     }
 
     /**
