@@ -40,7 +40,7 @@ class AppleController extends Controller
      */
     public function create(Request $request)
     {
-        $lists = ApiApp::query()->where('tenant_id', $request->tenant_id)->whereNotIn('parent_id', [0])->get(['id', 'app_id', 'app_secret', 'platform']);
+        $lists = ApiApp::query()->where('tenant_id', $request->tenant_id)->whereNotIn('parent_id', [0])->get(['id', 'app_id', 'app_secret', 'notify_url']);
         return view('cwapp::apple-create', compact('lists'));
     }
 
@@ -87,7 +87,7 @@ class AppleController extends Controller
         }
         unset($notifyUrl);
         DB::beginTransaction();
-        ApiApp::query()->where('tenant_id', $request->tenant_id)->whereNotIn('platform', [0])->delete();
+        ApiApp::query()->where('tenant_id', $request->tenant_id)->whereNotIn('parent_id', [0])->delete();
         if(ApiApp::query()->insert($params)){
             DB::commit();
             return response()->json(['url'=>url('apple/create'),'message' => '应用配置成功']);
