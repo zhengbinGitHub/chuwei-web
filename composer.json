@@ -20,7 +20,7 @@
     },
     "extra": {
         "branch-alias": {
-            "main-dev": "v1.0.3-dev"
+            "main-dev": "v1.0.4-dev"
         }
     },
     "license": "MIT",
