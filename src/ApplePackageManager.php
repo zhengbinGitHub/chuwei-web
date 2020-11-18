@@ -58,7 +58,7 @@ class ApplePackageManager
         if(empty($sign)) return false;
         $secretKey = $this->_getSecretKey($params['app_id']);
         if(empty($secretKey)) return false;
-        if($sign != $this->_getSign($params($params), $secretKey)) return false;
+        if($sign != $this->_getSign($params, $secretKey)) return false;
         return true;
     }
 
