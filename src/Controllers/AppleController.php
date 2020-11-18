@@ -63,7 +63,7 @@ class AppleController extends Controller
                 ++$key;
                 return response()->json(['message' => "第{$key}个应用AppID、AppSecret、Platform信息为空"]);
             }
-            if(ApiApp::query()->where(['tenant_id' => $request->tenant_id, 'platfrom' => config('cwapp.app_platform')])->count()){
+            if(ApiApp::query()->where(['tenant_id' => $request->tenant_id, 'platform' => config('cwapp.app_platform')])->count()){
                 continue 1;
             }
             $params[$key] = [

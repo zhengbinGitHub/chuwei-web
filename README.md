@@ -1,12 +1,14 @@
 # cw100_partner
 通过appid打通商户
-＃ 应用开发使用说明 ＃ 项目下载及配置 《1.》composer install chuwei/cwapp
+＃ 应用开发使用说明 
+＃ 项目下载及配置 
+《1.》composer install chuwei/cwapp
 
-《2.》php artisan vendor:publish --force 选择：CwApp\ApplePackageServiceProvider
+《2.》php artisan vendor:publish --provider="CwApp\ApplePackageServiceProvider" --tag=public
 
-《3.》php artisan migrate
+《3.》config/app.php providers添加 \CwApp\ApplePackageServiceProvider::class
 
-《4.》config/app.php providers添加 \CwApp\ApplePackageServiceProvider::class
+《4.》php artisan migrate
 
 《5.》后台菜单配置 应用配置 开启本项目应用：url('apple/show') 添加多个应用：url('apple/create')
 
