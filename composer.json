@@ -1,7 +1,7 @@
 {
     "name": "maczheng/cwapp",
     "description": "系统应用功能",
-    "version":"1.01",
+    "type": "library",
     "authors": [
         {
             "name": "zhengbinGitHub",
@@ -23,5 +23,6 @@
             "dev-main": "1.0.2"
         }
     },
-    "license": "MIT"
+    "license": "MIT",
+    "minimum-stability": "dev"
 }
