@@ -2,7 +2,7 @@
 通过appid打通商户
 ＃ 应用开发使用说明 
 ＃ 项目下载及配置 
-《1.》composer install chuwei/cwapp
+《1.》composer require chuwei/cwapp
 
 《2.》php artisan vendor:publish --provider="CwApp\ApplePackageServiceProvider" --tag=public
 
