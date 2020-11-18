@@ -24,7 +24,7 @@ class AppleController extends Controller
     {
         $info = ApiApp::query()
             ->updateOrCreate(
-                ['tenant_id' => $request->tenant_id, 'platform' => config('cwapp.app_platform')],
+                ['tenant_id' => $request->tenant_id, 'parent_id' => 0],
                 [
                     'app_id' => $this->app_code($request->tenant_id),
                     'app_secret' => $this->app_code($request->tenant_id),
@@ -40,7 +40,7 @@ class AppleController extends Controller
      */
     public function create(Request $request)
     {
-        $lists = ApiApp::query()->where('tenant_id', $request->tenant_id)->whereNotIn('platform', [config('cwapp.app_platform')])->get(['id', 'app_id', 'app_secret', 'platform']);
+        $lists = ApiApp::query()->where('tenant_id', $request->tenant_id)->whereNotIn('parent_id', [0])->get(['id', 'app_id', 'app_secret', 'platform']);
         return view('cwapp::apple-create', compact('lists'));
     }
 
@@ -57,35 +57,37 @@ class AppleController extends Controller
         if(empty($datas['apps'])){
             return response()->json(['message' => '应用信息为空']);
         }
-        $params = $platform = [];
+        $params = $notifyUrl = [];
+        $id = ApiApp::query()
+            ->where(['tenant_id' => $request->tenant_id, 'parent_id' => 0])->value('id');
+        if(0 == $id){
+            return response()->json(['message' => '请先配置默认应用', 'url' => url('apple/show')]);
+        }
         foreach ($datas['apps'] as $key=>$item){
-            if(empty($item['app_id']) || empty($item['app_secret']) || empty($item['platform'])){
+            if(empty($item['app_id']) || empty($item['app_secret']) || empty($item['notify_url'])){
                 ++$key;
-                return response()->json(['message' => "第{$key}个应用AppID、AppSecret、Platform信息为空"]);
+                return response()->json(['message' => "第{$key}个应用AppID、AppSecret、Notify_url信息为空"]);
             }
-            if($item['platform'] == config('cwapp.app_platform')
-                && ApiApp::query()->where(['tenant_id' => $request->tenant_id, 'platform' => config('cwapp.app_platform')])->count()){
-                continue 1;
-            }
-            if(isset($platform[$item['platform']])){
+            if(isset($notifyUrl[$item['notify_url']])){
                 ++$key;
-                return response()->json(['message' => "第{$key}个应用Platform信息重复"]);
+                return response()->json(['message' => "第{$key}个应用Notify_url信息重复"]);
             }
-            $platform[$item['platform']] = $item['platform'];
+            $notifyUrl[$item['notify_url']] = $item['notify_url'];
 
             $params[$key] = [
+                'parent_id' => $id,
                 'tenant_id' => $request->tenant_id,
                 'app_id' => $item['app_id'],
                 'app_secret' => $item['app_secret'],
-                'platform' => $item['platform'],
+                'notify_url' => $item['notify_url'],
                 'status' => 1,
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString(),
             ];
         }
-        unset($platform);
+        unset($notifyUrl);
         DB::beginTransaction();
-        ApiApp::query()->where('tenant_id', $request->tenant_id)->whereNotIn('platform', [config('cwapp.app_platform')])->delete();
+        ApiApp::query()->where('tenant_id', $request->tenant_id)->whereNotIn('platform', [0])->delete();
         if(ApiApp::query()->insert($params)){
             DB::commit();
             return response()->json(['url'=>url('apple/create'),'message' => '应用配置成功']);

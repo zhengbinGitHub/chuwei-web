@@ -18,6 +18,7 @@ class CreateApiAppTable extends Migration
             Schema::create('api_apps', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->bigInteger('tenant_id')->index()->comment('商户ID');
+                $table->integer('parent_id')->index()->comment('父类ID');
                 $table->char('app_id', 32)->index()->nullable(false)->comment('应用ID');
                 $table->string('app_secret', 32)->nullable(false)->comment('应用KEY');
                 $table->string('notify_url')->nullable(false)->comment('消息接受接口地址');
