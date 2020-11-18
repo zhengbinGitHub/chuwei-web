@@ -34,7 +34,7 @@ class ApplePackageServiceProvider extends ServiceProvider
 
         // 把静态资源发布到laravel public/cwapp 目录下
         $this->publishes([
-            __DIR__ .'/../resources/views/public' => public_path('cwapp'),
+            __DIR__ .'/../resources/public' => public_path('cwapp'),
         ], 'public');
 
         //数据库表
