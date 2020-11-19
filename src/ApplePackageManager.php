@@ -79,6 +79,20 @@ class ApplePackageManager
     }
 
     /**
+     * 获取消息推送地址
+     * @param $appId
+     * @return bool
+     */
+    public function getNotifyUrl($appId)
+    {
+        $notifyUrl = ApiApp::query()->where('app_id', $appId)->value('notify_url');
+        if(!$notifyUrl){
+            return false;
+        }
+        return $notifyUrl;
+    }
+
+    /**
      * 获取签名
      * @param $appId
      * @return bool
@@ -122,7 +136,14 @@ class ApplePackageManager
      * @param array $header header信息
      */
     public function post($url, $data, $proxy = null, $timeout = 10, $header=null) {
-        if (!$url) return false;
+        if (!$url) {
+            if(isset($data['app_id'])){
+                $url = $this->getNotifyUrl($data['app_id']);
+            }
+        }
+        if(!$url){
+            return false;
+        }
         if ($data) {
             $data = http_build_query($data);
         }
