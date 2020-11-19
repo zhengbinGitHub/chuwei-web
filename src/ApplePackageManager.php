@@ -156,7 +156,9 @@ class ApplePackageManager
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0); // 对认证证书来源的检查
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1); // 从证书中检查SSL加密算法是否存在
         }
-        curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']); //在HTTP请求中包含一个"User-Agent: "头的字符串。
+        if(isset($_SERVER['HTTP_USER_AGENT'])) {
+            curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']); //在HTTP请求中包含一个"User-Agent: "头的字符串。
+        }
         curl_setopt($curl, CURLOPT_HEADER, 0); //启用时会将头文件的信息作为数据流输出。
         curl_setopt($curl, CURLOPT_POST, true); //发送一个常规的Post请求
         curl_setopt($curl,  CURLOPT_POSTFIELDS, $data);//Post提交的数据包
