@@ -28,6 +28,7 @@ class AppleController extends Controller
                 [
                     'app_id' => $this->app_code($request->tenant_id),
                     'app_secret' => $this->app_code($request->tenant_id),
+                    'notify_url' => url('api/notify')
                 ]
             );
         return view('cwapp::apple-show', compact('info'));
