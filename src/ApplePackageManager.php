@@ -146,7 +146,10 @@ class ApplePackageManager
             return false;
         }
         if ($data) {
-            $data = http_build_query($data);
+            $data = json_encode($data);
+        }
+        if(is_null($header)){
+            $header = ['Content-Type:application/json', 'Content-Length:' . strlen($data)];
         }
         $ssl = stripos($url,'https://') === 0 ? true : false;
         $curl = curl_init();
@@ -176,6 +179,6 @@ class ApplePackageManager
             throw new \Exception($error);
         }
         curl_close($curl);
-        return $content;
+        return json_decode($content, true);
     }
 }
