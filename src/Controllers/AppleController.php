@@ -23,7 +23,7 @@ class AppleController extends Controller
     public function show(Request $request)
     {
         $info = ApiApp::query()
-            ->updateOrCreate(
+            ->firstOrCreate(
                 ['tenant_id' => $request->tenant_id, 'parent_id' => 0],
                 [
                     'app_id' => $this->app_code($request->tenant_id),
