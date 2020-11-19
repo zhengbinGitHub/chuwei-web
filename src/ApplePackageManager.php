@@ -85,6 +85,7 @@ class ApplePackageManager
      */
     public function getNotifyUrl($appId)
     {
+        if(!$appId) return false;
         $notifyUrl = ApiApp::query()->where('app_id', $appId)->value('notify_url');
         if(!$notifyUrl){
             return false;
