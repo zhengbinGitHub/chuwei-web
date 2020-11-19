@@ -173,7 +173,7 @@ class ApplePackageManager
         if ($curl_errno > 0){
             $error = sprintf("curl error=%s, errno=%d.", curl_error($curl), $curl_errno);
             curl_close($curl);
-            throw new Exception($error);
+            throw new \Exception($error);
         }
         curl_close($curl);
         return $content;
