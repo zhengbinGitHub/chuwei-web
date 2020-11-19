@@ -112,4 +112,46 @@ class ApplePackageManager
 
         return strtoupper(md5($stringToBeSigned));
     }
+
+    /**
+     * CURL-post方式获取数据
+     * @param string $url URL
+     * @param array  $data POST数据
+     * @param string $proxy 是否代理
+     * @param int    $timeout 请求时间
+     * @param array $header header信息
+     */
+    public function post($url, $data, $proxy = null, $timeout = 10, $header=null) {
+        if (!$url) return false;
+        if ($data) {
+            $data = http_build_query($data);
+        }
+        $ssl = stripos($url,'https://') === 0 ? true : false;
+        $curl = curl_init();
+        if (!is_null($proxy)) curl_setopt ($curl, CURLOPT_PROXY, $proxy);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        if ($ssl) {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0); // 对认证证书来源的检查
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1); // 从证书中检查SSL加密算法是否存在
+        }
+        curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']); //在HTTP请求中包含一个"User-Agent: "头的字符串。
+        curl_setopt($curl, CURLOPT_HEADER, 0); //启用时会将头文件的信息作为数据流输出。
+        curl_setopt($curl, CURLOPT_POST, true); //发送一个常规的Post请求
+        curl_setopt($curl,  CURLOPT_POSTFIELDS, $data);//Post提交的数据包
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1); //启用时会将服务器服务器返回的"Location: "放在header中递归的返回给服务器，使用CURLOPT_MAXREDIRS可以限定递归返回的数量。
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); //文件流形式
+        curl_setopt($curl, CURLOPT_TIMEOUT, $timeout); //设置cURL允许执行的最长秒数。
+        if (is_array($header))
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $header); //设置请求的Header
+
+        $content = curl_exec($curl);
+        $curl_errno = curl_errno($curl);
+        if ($curl_errno > 0){
+            $error = sprintf("curl error=%s, errno=%d.", curl_error($curl), $curl_errno);
+            curl_close($curl);
+            throw new Exception($error);
+        }
+        curl_close($curl);
+        return $content;
+    }
 }
