@@ -5,45 +5,41 @@
         <div class="layui-card-body">
             <form class="layui-form base_form_current" action="{{url('apple/store')}}" method="post">
                 @csrf
-                <div class="layui-form-item">
-                    <div class="layui-form-item G-voucher-main-hidden">
-                        <label for="" class="layui-form-label">添加AppID</label>
+                <input type="hidden" name="tenant_id" value="{{$merchant_id}}">
+                <input type="hidden" name="id" value="{{$info->id??0}}">
+                @foreach(collect(config('cwapp.clients'))->sortByDesc('sort')->all() as $key=>$item)
+                    @php
+                        $content = $contents[$item['alias']]??[];
+                    @endphp
+                <fieldset class="layui-elem-field layui-field-title" @if($key != 0)style="margin-top: 50px; @endif">
+                    <legend>{{$item['name']}}</legend>
+                </fieldset>
+                <input type="hidden" value="{{$item['alias']}}" name=apps[platform][]">
+                <div class="layui-form-item credentials">
+                    <label for="" class="layui-form-label col-xs-2">开发者ID(AppId)：</label>
+                        @if($key == 0)
+                            <div class="layui-form-mid layui-word-aux">{{$content['app_id']??''}}</div>
+                            <input type="hidden" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" lay-verify="required" name="apps[app_id][]">
+                        @else
                         <div class="layui-input-block">
-                            <div class="layui-upload" style="display: flex;align-items: flex-end;">
-                                <button type="button" class="layui-btn J-voucher-add" id="" lay-data="">
-                                    添加AppID
-                                </button>
-                                <label for="">最多添加5个关联应用</label>
-                            </div>
+                            <input type="text" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" lay-verify="required" name="apps[app_id][]">
                         </div>
-                    </div>
-                    <!--凭证循环模块-->
-                    <div class="G-voucher-main">
-                        @forelse($lists as $key=>$item)
-                            <div class="layui-form-item credentials" data-id="{{$key}}">
-                                <label for="" class="layui-form-label"></label>
-                                <div class="layui-input-block">
-                                    <input type="text" value="{{$item->app_id}}" class="layui-input col-xs-3" placeholder="请输入应用AppID" lay-verify="required" name="apps[{{$key}}][app_id]">
-                                    <input type="text" value="{{$item->app_secret}}" class="layui-input col-xs-3" placeholder="请输入应用AppSecret" style="margin-left:10px;" name="apps[{{$key}}][app_secret]">
-                                    <input type="text" value="{{$item->notify_url}}" class="layui-input col-xs-3" placeholder="请输入消息接收" style="margin-left:10px;" name="apps[{{$key}}][notify_url]">
-                                    <a class="layui-btn C-marginLeft-10 J-voucher-delete"> 删 除</a>
-                                </div>
-                            </div>
-                        @empty
-                            <div class="layui-form-item credentials" data-id="0">
-                                <label for="" class="layui-form-label"></label>
-                                <div class="layui-input-block">
-                                    <input type="text" class="layui-input col-xs-3" placeholder="请输入应用AppID" lay-verify="required" name="apps[0][app_id]">
-                                    <input type="text" class="layui-input col-xs-3" placeholder="请输入应用AppSecret" style="margin-left:10px;" name="apps[0][app_secret]">
-                                    <input type="text" class="layui-input col-xs-3" placeholder="请输入消息接收" style="margin-left:10px;" name="apps[0][notify_url]">
-                                    <a class="layui-btn C-marginLeft-10 J-voucher-delete"> 删 除</a>
-                                </div>
-                            </div>
-                        @endforelse
-
-                    </div>
-                    <div class="G-voucher-empty" hidden></div>
+                        @endif
                 </div>
+                <div class="layui-form-item credentials" data-id="0">
+                    <label for="" class="layui-form-label col-xs-2">开发者密码(AppSecret)：</label>
+
+                        @if($key == 0)
+                            <div class="layui-form-mid layui-word-aux">{{$content['app_secret']??''}}</div>
+                            <input type="hidden" value="{{$content['app_secret']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppSecret" lay-verify="required" name="apps[app_secret][]">
+                        @else
+                        <div class="layui-input-block">
+                            <input type="text" value="{{$content['app_secret']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppSecret" lay-verify="required" name="apps[app_secret][]">
+                        </div>
+                        @endif
+                </div>
+                @endforeach
+
                 <div class="layui-form-item  layui-layout-admin">
                     <div class="layui-input-block">
                         <div class="layui-footer" style="left: 0;">
@@ -51,6 +47,7 @@
                         </div>
                     </div>
                 </div>
+
             </form>
         </div>
     </div>

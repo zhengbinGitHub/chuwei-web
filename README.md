@@ -10,8 +10,6 @@
 
 《4.》php artisan migrate
 
-《5.》后台菜单配置 应用配置 开启本项目应用：url('apple/show') 添加多个应用：url('apple/create')
+《5.》后台菜单配置 应用配置 添加多个应用：url('apple/client', ['merchant_id' => 商户ID])
 
-《6.》请求应用token {domain}/apple/auth 返回｛'code':1, 'data':{'token':'', 'expires_in': '有效时间'}｝；数据请求验证添加中间件: cwapp-api:auth
-
-《7.》获取随机16位字符串：app('cwapp')->getNonceStr() 
+《6.》环境变量配置 env('APP_GUARD')授权设备 env('APP_DEFAULT_CLIENT') 默认应用服务 env('APP_PLATFORM')默认平台名称 

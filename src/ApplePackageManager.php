@@ -158,7 +158,7 @@ class ApplePackageManager
         curl_setopt($curl, CURLOPT_URL, $url);
         if ($ssl) {
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0); // 对认证证书来源的检查
-            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1); // 从证书中检查SSL加密算法是否存在
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2); // 从证书中检查SSL加密算法是否存在
         }
         if(isset($_SERVER['HTTP_USER_AGENT'])) {
             curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']); //在HTTP请求中包含一个"User-Agent: "头的字符串。

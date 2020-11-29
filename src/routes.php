@@ -8,9 +8,8 @@
 Route::group(['namespace' => 'CwApp\Controllers'], function () {
     Route::get('apple/auth', 'AuthTokenController@index')->name('apple.auth');
     Route::group(['middleware'=>['web', 'cwapp.auth:'.config('cwapp.app_guard')]], function($router){
-        $router->get('apple/show', 'AppleController@show')->name('apple.show');
         //配置多个应用
-        $router->get('apple/create', 'AppleController@create')->name('apple.create');
+        $router->get('apple/client/{merchant_id}', 'AppleController@client')->name('apple.client');
         //保存
         $router->post('apple/store', 'AppleController@store')->name('apple.store');
     });
