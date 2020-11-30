@@ -39,6 +39,10 @@ class AppleController extends Controller
                 $info = ApiApp::query()->create(['tenant_id' => $merchant_id, 'status' => 1, 'content' => json_encode($content)]);
             }
         }
+        $contents = [];
+        if(isset($info->content))
+            $contents = json_decode($info->content, true);
+
         return view('cwapp::apple-client', compact('info', 'contents', 'merchant_id'));
     }
 
