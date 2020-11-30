@@ -24,6 +24,9 @@ class AppleController extends Controller
      */
     public function client(Request $request, int $merchant_id)
     {
+        if(!config('cwapp.app_guard') || !config('cwapp.app_default_client')){
+            return view('cwapp::app-error');
+        }
         $name = $request->get('name', config('cwapp.app_platform'));
         $info = ApiApp::query()->where('tenant_id', $merchant_id)->first();
         if(!isset($info->id)){
