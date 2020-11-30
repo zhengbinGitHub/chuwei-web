@@ -50,7 +50,6 @@ class AppleController extends Controller
      */
     private function _getRpc($merchant_id, $name)
     {
-        require_once dirname(dirname(dirname(__FILE__))).'/vendor/autoload.php';
         $urlList = explode(',', config('cwapp.rpc_servers'));
         $client = Client::create($urlList, false);
         $result = $client->user_client(['item_id' => $merchant_id, 'item_type' => 'mall', 'name' => $name]);
