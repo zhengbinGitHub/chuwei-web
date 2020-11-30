@@ -52,8 +52,8 @@ class AppleController extends Controller
     {
         $urlList = explode(',', config('cwapp.rpc_servers'));
         $client = Client::create($urlList, false);
-        $result = $client->user_client(['item_id' => $merchant_id, 'item_type' => 'mall', 'name' => $name]);
-        $content = json_decode($result->getContent(), true);
+        $result = $client->user_client(['item_id' => $merchant_id, 'item_type' => config('cwapp.app_default_client'), 'name' => $name]);
+        $content = json_decode($result, true);
         return ['client_id' => $content['data']['client_id'], 'client_secret' => $content['data']['client_secret']];
     }
 
