@@ -44,6 +44,7 @@
                     <div class="layui-input-block">
                         <div class="layui-footer" style="left: 0;">
                             <button type="submit" lay-submit="" class="layui-btn layui-btn-normal">确 认</button>
+                            <a class="layui-btn layui-btn-primary" id="layui-form-close"> 返回 </a>
                         </div>
                     </div>
                 </div>
@@ -61,39 +62,10 @@
                 ,$ = layui.jquery
                 ,element = layui.element;
             form.render();
-            $(document).on('click','.J-voucher-add',function(){
-                let th = $(this);
-                let length = $('.credentials').length;
-                if(length >= 5){
-                    return layer.msg('最多添加5个关联应用')
-                }
-                let arrId = $('.credentials').map((index,item) =>{
-                    return $(item).attr('data-id');
-                })
-                let maxId = Math.max(...arrId);
-                arrId.length ? $(".G-voucher-main").append(addVoucher(maxId + 1)):$(".G-voucher-main").append(addVoucher(0))
-            });
-            function addVoucher(id){
-                let str = `<div class="layui-form-item credentials" data-id=${id}>
-                    <label for="" class="layui-form-label"></label>
-                    <div class="layui-input-block">
-                        <input type="text" class="layui-input col-xs-2" placeholder="请输入应用AppID" lay-verify="required" name="apps[${id}][app_id]">
-                        <input type="text" class="layui-input col-xs-2"  placeholder="请输入应用AppSecret" style="margin-left:10px;" name="apps[${id}][app_secret]">
-                        <input type="text" class="layui-input col-xs-2"  placeholder="请输入应用平台标示" style="margin-left:10px;" name="apps[${id}][platform]">
-                        <a class="layui-btn C-marginLeft-10 J-voucher-delete"> 删 除</a>
-                    </div>
-                </div>`
-                return str;
-            }
-            $(document).on('click','.J-voucher-delete',function(){
-                let th = $(this);
-                let length = $(".credentials").length;
-                if(length > 1) {
-                    th.parents('.credentials').remove();
-                } else {
-                    layer.msg('最后一个无法删除');
-                }
-                return false;
+            //关闭页面
+            $('#layui-form-close').on('click', function(){
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭
             });
             var options = {
                 beforeSerialize: editFun,
@@ -127,19 +99,6 @@
                     }
                 }
             };
-            function editFun(){
-                let checkVal = $("input[name='pz']:checked").val();
-                let length = $(".credentials").length;
-                let str = `
-                    <input type="text" hidden name="apps[0][app_id]" value="">
-                    <input type="text" hidden name="apps[0][app_secret]" value="">
-                    <input type="text" hidden name="apps[0][platform]" value="">
-                    `
-                if(!length && checkVal == 0){
-                    $(".G-voucher-empty").append(str)
-                }
-                $(':submit').attr('disabled', true);
-            }
             $('.base_form_current').ajaxForm(options);
         });
     </script>
