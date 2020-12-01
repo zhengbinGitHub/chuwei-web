@@ -6,38 +6,43 @@
                 @csrf
                 <input type="hidden" name="tenant_id" value="{{$merchant_id}}">
                 <input type="hidden" name="id" value="{{$info->id??0}}">
+                @php
+                    $index = 0;
+                @endphp
                 @foreach(collect(config('cwapp.clients'))->sortByDesc('sort')->all() as $key=>$item)
                     @php
-                        $key = !isset($key) ? 0 : ++$key;
                         $content = $contents[$item['alias']]??[];
                     @endphp
-                <fieldset class="layui-elem-field layui-field-title" @if($key != 0)style="margin-top: 50px; @endif">
-                    <legend>{{$item['name']}}</legend>
-                </fieldset>
-                <input type="hidden" value="{{$item['alias']}}" name=apps[platform][]">
-                <input type="hidden" value="{{$content['id']??0}}" name=apps[id][]">
-                <div class="layui-form-item credentials">
-                    <label for="" class="layui-form-label col-xs-2">开发者ID(AppId)：</label>
-                        @if($key == 0)
+                    <fieldset class="layui-elem-field layui-field-title" @if($index != 0)style="margin-top: 50px; @endif">
+                        <legend>{{$item['name']}}</legend>
+                    </fieldset>
+                    <input type="hidden" value="{{$item['alias']}}" name=apps[platform][]">
+                    <input type="hidden" value="{{$content['id']??0}}" name=apps[id][]">
+                    <div class="layui-form-item credentials">
+                        <label for="" class="layui-form-label col-xs-2">开发者ID(AppId)：</label>
+                        @if($index == 0)
                             <div class="layui-form-mid layui-word-aux">{{$content['app_id']??''}}</div>
                             <input type="hidden" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" lay-verify="required" name="apps[app_id][]">
                         @else
-                        <div class="layui-input-block">
-                            <input type="text" maxlength="32" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" lay-verify="required" name="apps[app_id][]">
-                        </div>
+                            <div class="layui-input-block">
+                                <input type="text" maxlength="32" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" lay-verify="required" name="apps[app_id][]">
+                            </div>
                         @endif
-                </div>
-                <div class="layui-form-item credentials" data-id="0">
-                    <label for="" class="layui-form-label col-xs-2">开发者密码(AppSecret)：</label>
-                        @if($key == 0)
+                    </div>
+                    <div class="layui-form-item credentials" data-id="0">
+                        <label for="" class="layui-form-label col-xs-2">开发者密码(AppSecret)：</label>
+                        @if($index == 0)
                             <div class="layui-form-mid layui-word-aux">{{$content['app_secret']??''}}</div>
                             <input type="hidden" value="{{$content['app_secret']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppSecret" lay-verify="required" name="apps[app_secret][]">
                         @else
-                        <div class="layui-input-block">
-                            <input type="text" value="{{$content['app_secret']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppSecret" lay-verify="required" name="apps[app_secret][]">
-                        </div>
+                            <div class="layui-input-block">
+                                <input type="text" value="{{$content['app_secret']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppSecret" lay-verify="required" name="apps[app_secret][]">
+                            </div>
                         @endif
-                </div>
+                    </div>
+                    @php
+                        ++$index;
+                    @endphp
                 @endforeach
 
                 <div class="layui-form-item  layui-layout-admin">
@@ -52,7 +57,7 @@
             </form>
         </div>
     </div>
-    @stop
+@stop
 @section('script')
     <script src="/cwapp/jquery/1.12.3/jquery-1.12.3.js"></script>
     <script src="/cwapp/jqueryform/jquery-form.js"></script>
@@ -104,4 +109,4 @@
             $('.base_form_current').ajaxForm(options);
         });
     </script>
-    @stop
+@stop
