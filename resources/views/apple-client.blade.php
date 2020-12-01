@@ -8,6 +8,7 @@
                 <input type="hidden" name="id" value="{{$info->id??0}}">
                 @foreach(collect(config('cwapp.clients'))->sortByDesc('sort')->all() as $key=>$item)
                     @php
+                        $key = !isset($key) ? 0 : ++$key;
                         $content = $contents[$item['alias']]??[];
                     @endphp
                 <fieldset class="layui-elem-field layui-field-title" @if($key != 0)style="margin-top: 50px; @endif">
