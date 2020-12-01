@@ -8,9 +8,7 @@
             "email": "122606861@qq.com"
         }
     ],
-    "require": {
-        "hprose/hprose": "2.0"
-    },
+    "require": {},
     "autoload": {
         "psr-0": {
             "CwApp\\": "src/"

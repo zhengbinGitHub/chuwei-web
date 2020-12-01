@@ -1,7 +1,6 @@
 @extends('cwapp::layouts.main')
 @section('content')
     <div class="layui-form">
-        <div class="layui-card-header">应用信息</div>
         <div class="layui-card-body">
             <form class="layui-form base_form_current" action="{{url('apple/store')}}" method="post">
                 @csrf
@@ -15,6 +14,7 @@
                     <legend>{{$item['name']}}</legend>
                 </fieldset>
                 <input type="hidden" value="{{$item['alias']}}" name=apps[platform][]">
+                <input type="hidden" value="{{$content['id']??0}}" name=apps[id][]">
                 <div class="layui-form-item credentials">
                     <label for="" class="layui-form-label col-xs-2">开发者ID(AppId)：</label>
                         @if($key == 0)
@@ -22,13 +22,12 @@
                             <input type="hidden" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" lay-verify="required" name="apps[app_id][]">
                         @else
                         <div class="layui-input-block">
-                            <input type="text" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" lay-verify="required" name="apps[app_id][]">
+                            <input type="text" maxlength="32" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" lay-verify="required" name="apps[app_id][]">
                         </div>
                         @endif
                 </div>
                 <div class="layui-form-item credentials" data-id="0">
                     <label for="" class="layui-form-label col-xs-2">开发者密码(AppSecret)：</label>
-
                         @if($key == 0)
                             <div class="layui-form-mid layui-word-aux">{{$content['app_secret']??''}}</div>
                             <input type="hidden" value="{{$content['app_secret']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppSecret" lay-verify="required" name="apps[app_secret][]">
@@ -68,7 +67,9 @@
                 parent.layer.close(index); //再执行关闭
             });
             var options = {
-                beforeSerialize: editFun,
+                beforeSerialize:function () {
+                    $(':submit').attr('disabled', true);
+                },
                 success: function(data) {
                     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
                     if (data.error == undefined) {

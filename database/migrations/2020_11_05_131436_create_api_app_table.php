@@ -18,7 +18,9 @@ class CreateApiAppTable extends Migration
             Schema::create('api_apps', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->bigInteger('tenant_id')->index()->comment('商户ID');
-                $table->text('content')->nullable(false)->comment('应用json串');
+                $table->char('app_id', 32)->index()->comment('APPID');
+                $table->string('app_secret')->nullable()->comment('APPSECRET');
+                $table->char('platform', 10)->nullable(false)->comment('平台');
                 $table->tinyInteger('status')->default(1)->comment('状态 1开启 0关闭');
                 $table->timestamps();
             });

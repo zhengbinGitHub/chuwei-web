@@ -6,8 +6,7 @@
  * Time: 13:30
  */
 
-namespace CwApp\Controllers;
-
+namespace CwApp\Controllers\Api;
 
 use CwApp\Models\ApiApp;
 use Illuminate\Http\Request;
@@ -42,7 +41,7 @@ class AuthTokenController extends Controller
         $signature = hash_hmac('md5', $info, $apiInfo->app_secret);
         //最后将这两部分拼接起来，得到最终的Token字符串
         $token = $info . '.' . $signature;
-        return $this->returnMsg(1, 'ok', ['token' => $token, 'expires_in' => 7200]);
+        return $this->returnMsg(1, 'ok', ['token' => $token]);
     }
 
     /**
@@ -56,6 +55,6 @@ class AuthTokenController extends Controller
         $return_data['code'] = $code;
         $return_data['msg']  = $msg;
         $return_data['data'] = $data;
-        return json_decode($return_data);
+        return json_encode($return_data);
     }
 }

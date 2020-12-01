@@ -23,76 +23,72 @@ class CwAppApiMiddleware
     public function handle($request, Closure $next)
     {
         $token = $this->getAuthToken();
-        $result = $this->validate($token);
-        if(0 != $result['code']) {
-            return json_encode($result);
+        if(!$token){
+            return $this->returnMsg('-1', '头部X-Auth-Token参数为空');
+        }
+        $request->platform = request()->header('X-Auth-Platform');
+        $request->appid = request()->header('X-Auth-Appid');
+        if(!$request->platform || !$request->appid){
+            return $this->returnMsg('-1', '头部X-Auth-Platform／X-Auth-Appid参数为空');
+        }
+        try{
+            $this->validate($request->appid, $request->platform, $token);
+        }catch (\Exception $ex){
+            return $this->returnMsg('-1', $ex->getMessage());
         }
         return $next($request);
     }
 
+    /**
+     * @param $code
+     * @param $message
+     * @param null $data
+     * @return false|string
+     */
+    private function returnMsg($code, $message, $data = null)
+    {
+        return json_encode(['code' => $code, 'message' => $message, 'data' => $data]);
+    }
 
     /**
      * @return array|mixed|string|null
      */
     protected function getAuthToken() {
-        $token = Request::header('X-Auth-Token');
+        $token = request()->header('X-Auth-Token');
         if(empty($token)) {
-            $token = Input::get('auth_token');
+            $token = request()->header('auth_token');
         }
         return $token;
     }
 
     /**
-     * @param $token
-     * @return string
-     * name: libo
-     * Date: 2020/9/29
      * 验证token
+     * @param $appId
+     * @param $platform
+     * @param $token
+     * @throws \Exception
      */
-    public function validate($token)
+    public function validate($appId, $platform, $token)
     {
         /**** api传来的token ****/
         if(!isset($token) || empty($token))
         {
-            $msg['code'] = '400';
-            $msg['msg'] = '非法请求';
-            return $msg;
+            throw new \Exception('非法请求', 400);
         }
-        $platform = Request::header('X-Auth-Platform');
-        $appId = Request::header('X-Auth-Appid');
         //对比token
         $explode = explode('.',$token);//以.分割token为数组
         if(!empty($explode[0]) && !empty($explode[1]) && !empty($explode[2]) && !empty($explode[3]) )
         {
             $info = $explode[0].'.'.$explode[1].'.'.$explode[2];//信息部分
             $true_signature = hash_hmac('md5', $info, ApiApp::query()->where(['app_id' => $appId, 'platform' => $platform])->value('app_secret'));//正确的签名
-            if(time() > $explode[2])
+            if ($true_signature != $explode[3])
             {
-                $msg['code'] = '401';
-                $msg['msg'] = 'Token已过期,请重新登录';
-                return $msg;
-            }
-            if ($true_signature == $explode[3])
-            {
-                $msg['code'] = '200';
-                $msg['msg'] = 'Token合法';
-                return $msg;
-            }
-            else
-            {
-                $msg['code'] = '400';
-                $msg['msg'] = 'Token不合法';
-                return $msg;
+                throw new \Exception('Token不合法', 400);
             }
         }
         else
         {
-            $msg['code'] = '400';
-            $msg['msg'] = 'Token不合法';
-            return $msg;
+            throw new \Exception('Token签名串不合法', 400);
         }
-        $msg['code'] = 0;
-        $msg['msg'] = 'Token合法';
-        return $msg;
     }
 }
