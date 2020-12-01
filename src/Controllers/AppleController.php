@@ -27,7 +27,6 @@ class AppleController extends Controller
         if(!config('cwapp.app_guard') || !config('cwapp.app_default_platform')){
             return view('cwapp::apple-error');
         }
-        $contents = [];
         $lists = ApiApp::query()->where('tenant_id', $merchant_id)->get();
         if(0 == count($lists)){
             $info = ApiApp::query()->create([

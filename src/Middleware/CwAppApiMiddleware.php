@@ -47,7 +47,7 @@ class CwAppApiMiddleware
      */
     private function returnMsg($code, $message, $data = null)
     {
-        return json_encode(['code' => $code, 'message' => $message, 'data' => $data]);
+        return response()->json(['code' => $code, 'message' => $message, 'data' => $data]);
     }
 
     /**
