@@ -21,18 +21,18 @@ class AuthTokenController extends Controller
     {
         $appId = $request->get('appid', '');
         if(empty($appId)){
-            return $this->returnMsg('－1', 'APPID参数缺少');
+            return $this->returnMsg(0, 'APPID参数缺少');
         }
         $platform = $request->get('platform', '');
         if(empty($platform)){
-            return $this->returnMsg('－1', 'PLATFORM参数缺少');
+            return $this->returnMsg(0, 'PLATFORM参数缺少');
         }
         $apiInfo = ApiApp::query()->where(['app_id' => $appId, 'platform' => $platform])->first(['app_secret', 'status']);
         if(!isset($apiInfo->app_secret)){
-            return $this->returnMsg('－1', '应用信息为空');
+            return $this->returnMsg(0, '应用信息为空');
         }
         if(0 == $apiInfo->status){
-            return $this->returnMsg('－1', '应用已关闭');
+            return $this->returnMsg(0, '应用已关闭');
         }
         $time = time();
         $end_time = time() + 7200;
@@ -41,7 +41,7 @@ class AuthTokenController extends Controller
         $signature = hash_hmac('md5', $info, $apiInfo->app_secret);
         //最后将这两部分拼接起来，得到最终的Token字符串
         $token = $info . '.' . $signature;
-        return $this->returnMsg(0, 'ok', ['token' => $token]);
+        return $this->returnMsg(1, 'ok', ['token' => $token]);
     }
 
     /**
@@ -52,8 +52,8 @@ class AuthTokenController extends Controller
      */
     private function returnMsg($code, $msg = '', $data = [])
     {
-        $return_data['code'] = $code;
-        $return_data['msg']  = $msg;
+        $return_data['status'] = $code;
+        $return_data['message']  = $msg;
         $return_data['data'] = $data;
         return response()->json($return_data);
     }

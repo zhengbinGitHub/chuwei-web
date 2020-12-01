@@ -24,17 +24,17 @@ class CwAppApiMiddleware
     {
         $token = $this->getAuthToken();
         if(!$token){
-            return $this->returnMsg('-1', '头部X-Auth-Token参数为空');
+            return $this->returnMsg(0, '头部X-Auth-Token参数为空');
         }
         $request->platform = request()->header('X-Auth-Platform');
         $request->appid = request()->header('X-Auth-Appid');
         if(!$request->platform || !$request->appid){
-            return $this->returnMsg('-1', '头部X-Auth-Platform／X-Auth-Appid参数为空');
+            return $this->returnMsg(0, '头部X-Auth-Platform／X-Auth-Appid参数为空');
         }
         try{
             $this->validate($request->appid, $request->platform, $token);
         }catch (\Exception $ex){
-            return $this->returnMsg('-1', $ex->getMessage());
+            return $this->returnMsg(0, $ex->getMessage());
         }
         return $next($request);
     }
@@ -47,7 +47,7 @@ class CwAppApiMiddleware
      */
     private function returnMsg($code, $message, $data = null)
     {
-        return response()->json(['code' => $code, 'message' => $message, 'data' => $data]);
+        return response()->json(['status' => $code, 'message' => $message, 'data' => $data]);
     }
 
     /**
