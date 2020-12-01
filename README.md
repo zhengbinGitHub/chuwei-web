@@ -13,7 +13,7 @@
 
 《5.》后台菜单配置 应用配置 添加多个应用：url('apple/client', ['merchant_id' => 商户ID])
 
-《6.》环境变量配置 env('APP_GUARD')授权设备 env('APP_DEFAULT_CLIENT') 默认应用服务 env('APP_PLATFORM')默认平台名称
+《6.》环境变量配置 env('APP_GUARD')授权设备 env('APP_DEFAULT_PLATFORM') 默认平台名称
 
 《7.》获取token验证认证指令牌get获取url/api/client/token?appid=appid&platform=platform
 
