@@ -35,8 +35,8 @@ class TestController extends Controller
     {
         $info = $this->apiApp->where('app_id', $request->appid)->first();
         if(!$info->id){
-            return json_encode(['code' => '-1', 'message' => '应用信息为空']);
+            return response()->json(['status' => 0, 'message' => '应用信息为空']);
         }
-        return json_encode(['code' => 0, 'message' => 'ok', 'data' => ['app_id' => $info->app_id, 'app_secret' => $info->app_secret]]);
+        return response()->json(['status' => 1, 'message' => 'ok', 'data' => ['app_id' => $info->app_id, 'app_secret' => $info->app_secret]]);
     }
 }

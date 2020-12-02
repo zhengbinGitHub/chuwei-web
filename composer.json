@@ -10,7 +10,7 @@
     ],
     "require": {},
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "CwApp\\": "src/"
         }
     },
@@ -21,7 +21,7 @@
     },
     "extra": {
         "branch-alias": {
-            "main-dev": "v1.0.9-dev"
+            "main-dev": "v1.1.0-dev"
         }
     },
     "license": "MIT",
