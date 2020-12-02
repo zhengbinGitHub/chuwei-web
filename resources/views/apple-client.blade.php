@@ -22,10 +22,10 @@
                         <label for="" class="layui-form-label col-xs-2">开发者ID(AppId)：</label>
                         @if($index == 0)
                             <div class="layui-form-mid layui-word-aux">{{$content['app_id']??''}}</div>
-                            <input type="hidden" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" lay-verify="required" name="apps[app_id][]">
+                            <input type="hidden" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" name="apps[app_id][]">
                         @else
                             <div class="layui-input-block">
-                                <input type="text" maxlength="32" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" lay-verify="required" name="apps[app_id][]">
+                                <input type="text" maxlength="32" value="{{$content['app_id']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppID" name="apps[app_id][]">
                             </div>
                         @endif
                     </div>
@@ -33,10 +33,10 @@
                         <label for="" class="layui-form-label col-xs-2">开发者密码(AppSecret)：</label>
                         @if($index == 0)
                             <div class="layui-form-mid layui-word-aux">{{$content['app_secret']??''}}</div>
-                            <input type="hidden" value="{{$content['app_secret']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppSecret" lay-verify="required" name="apps[app_secret][]">
+                            <input type="hidden" value="{{$content['app_secret']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppSecret" name="apps[app_secret][]">
                         @else
                             <div class="layui-input-block">
-                                <input type="text" value="{{$content['app_secret']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppSecret" lay-verify="required" name="apps[app_secret][]">
+                                <input type="text" value="{{$content['app_secret']??''}}" class="layui-input col-xs-9" placeholder="请输入应用AppSecret" name="apps[app_secret][]">
                             </div>
                         @endif
                     </div>
@@ -87,17 +87,18 @@
                                     window.location = data.url;
                                     element.render();
                                     return false;
-                                }else
-                                    parent.location = data.url;
+                                }
+                                parent.location = data.url;
                                 element.render();
                             }
-                            else
-                            if(index == 2){
-                                parent.layer.close(index);
-                                parent.location.reload();
-                            }else if(index == 1){
-                                layer.close(index);
-                                location.reload();
+                            else {
+                                if (index == 2) {
+                                    parent.layer.close(index);
+                                    parent.location.reload();
+                                } else if (index == 1) {
+                                    layer.close(index);
+                                    location.reload();
+                                }
                             }
                         }, 1000);
                     } else {

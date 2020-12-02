@@ -121,15 +121,20 @@ class AppleController extends Controller
     public function store(Request $request)
     {
         if(!isset($request->tenant_id) || empty($request->tenant_id)){
-            return response()->json(['message' => '请登录']);
+            return response()->json(['status' => 0, 'message' => '请登录']);
         }
         $datas = $request->all();
         if(empty($datas['apps'])){
-            return response()->json(['message' => '应用信息为空']);
+            return response()->json(['status' => 0, 'message' => '应用信息为空']);
         }
         $isSuccess = true;
-        $params = [];
         foreach ($datas['apps']['platform'] as $key=>$item){
+            if($datas['apps']['app_id'][$key] && !$datas['apps']['app_secret'][$key]){
+                return response()->json(['status' => 0, 'message' => $datas['apps']['app_id'][$key].' AppSecret为空']);
+            }
+            if(!$datas['apps']['app_id'][$key] && $datas['apps']['app_secret'][$key]){
+                return response()->json(['status' => 0, 'message' => $datas['apps']['app_secret'][$key].' AppID为空']);
+            }
             $params = ['tenant_id' => $request->tenant_id, 'app_id' => $datas['apps']['app_id'][$key], 'app_secret' => $datas['apps']['app_secret'][$key], 'platform' => $datas['apps']['platform'][$key]];
             if($datas['apps']['id'][$key] == 0){
                 if(!ApiApp::query()->create(array_merge($params, ['status' => 1]))){
@@ -141,8 +146,8 @@ class AppleController extends Controller
             }
         }
         if($isSuccess){
-            return response()->json(['url'=>url('apple/client', ['merchant_id' => $request->tenant_id]),'message' => '应用配置成功']);
+            return response()->json(['status' => 1, 'url'=>url('apple/client', ['merchant_id' => $request->tenant_id]),'message' => '应用配置成功']);
         }
-        return response()->json(['message' => '应用配置失败']);
+        return response()->json(['status' => 0, 'message' => '应用配置失败']);
     }
 }
