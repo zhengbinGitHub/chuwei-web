@@ -54,11 +54,11 @@ class CwAppApiMiddleware
      * @return array|mixed|string|null
      */
     protected function getAuthToken() {
-        $token = request()->header('X-Auth-Token');
+        $token = request()->header('Authorization');
         if(empty($token)) {
             $token = request()->header('auth_token');
         }
-        return $token;
+        return str_replace('Bearer ', '', $token);
     }
 
     /**
