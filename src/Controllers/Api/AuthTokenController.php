@@ -41,7 +41,7 @@ class AuthTokenController extends Controller
         $signature = hash_hmac('md5', $info, $apiInfo->app_secret);
         //最后将这两部分拼接起来，得到最终的Token字符串
         $token = $info . '.' . $signature;
-        return $this->returnMsg(1, 'ok', $token);
+        return $this->returnMsg(1, 'ok', ['token' => $token]);
     }
 
     /**
