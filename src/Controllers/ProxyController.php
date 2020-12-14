@@ -100,6 +100,8 @@ class ProxyController extends Controller
         }
         $isSuccess = true;
         foreach ($datas['apps']['platform'] as $key=>$item){
+            if(!$datas['apps']['app_id'][$key] && !$datas['apps']['app_secret'][$key]) continue;
+
             if($datas['apps']['app_id'][$key] && !$datas['apps']['app_secret'][$key]){
                 return response()->json(['status' => 0, 'message' => $datas['apps']['app_id'][$key].' AppSecret为空']);
             }
