@@ -8,7 +8,6 @@
             "email": "122606861@qq.com"
         }
     ],
-    "require": {},
     "autoload": {
         "psr-4": {
             "CwApp\\": "src/"
