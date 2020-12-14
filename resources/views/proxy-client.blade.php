@@ -2,7 +2,7 @@
 @section('content')
     <div class="layui-form">
         <div class="layui-card-body">
-            <form class="layui-form base_form_current" action="{{url('apple/store')}}" method="post">
+            <form class="layui-form base_form_current" action="{{url('proxy/store')}}" method="post">
                 @csrf
                 <input type="hidden" name="tenant_id" value="{{$merchant_id}}">
                 <input type="hidden" name="id" value="{{$info->id??0}}">
