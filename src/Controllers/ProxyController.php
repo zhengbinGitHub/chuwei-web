@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
 
-class AppleController extends Controller
+class ProxyController extends Controller
 {
     /**
      * @param Request $request
@@ -25,7 +25,7 @@ class AppleController extends Controller
     public function client(Request $request, int $merchant_id)
     {
         if(!config('cwapp.app_guard') || !config('cwapp.app_default_platform')){
-            return view('cwapp::apple-error');
+            return view('cwapp::proxy-error');
         }
         $lists = ApiApp::query()->where('tenant_id', $merchant_id)->get();
         if(0 == count($lists)){
@@ -38,7 +38,7 @@ class AppleController extends Controller
             ]);
         }
         $contents = $this->_getContents($lists, $info??[]);
-        return view('cwapp::apple-client', compact('contents', 'merchant_id'));
+        return view('cwapp::proxy-client', compact('contents', 'merchant_id'));
     }
 
     /**

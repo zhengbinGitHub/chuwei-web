@@ -11,7 +11,7 @@ use Illuminate\Support\ServiceProvider;
  * Time: 17:34
  */
 
-class ApplePackageServiceProvider extends ServiceProvider
+class ProxyPackageServiceProvider extends ServiceProvider
 {
     /**
      * 注册信息
@@ -19,14 +19,14 @@ class ApplePackageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->make('CwApp\Controllers\AppleController');
+        $this->app->make('CwApp\Controllers\ProxyController');
         if (! $this->app->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__.'/../config/cwapp.php', 'cwapp');
         }
 
         //注册应用
         $this->app->singleton('cwapp', function($app){
-            return new ApplePackageManager($app['config']);
+            return new ProxyPackageManager($app['config']);
         });
     }
 

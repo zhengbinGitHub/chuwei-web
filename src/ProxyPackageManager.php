@@ -9,7 +9,7 @@ use CwApp\Models\ApiApp;
  * Time: 21:51
  */
 
-class ApplePackageManager
+class ProxyPackageManager
 {
     private $config;
 
