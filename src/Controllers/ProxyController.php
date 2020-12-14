@@ -30,14 +30,16 @@ class ProxyController extends Controller
         }
         $lists = ApiApp::query()->where('tenant_id', $merchant_id)->get();
         if(0 == count($lists)){
-            $oauths = OauthClient::query()->where('user_id', $merchant_id)->first();
-            if(!isset($oauths->id)){
-                $msg = '请先实现Passport生成信息，Oauth 2.0 验证机制！';
-                return view('cwapp::proxy-error', compact('msg'));
-            }
-            $oauths->appid = $oauths->secret.'-'.$merchant_id;
-            $oauths->save();
-
+            $oauths = OauthClient::query()->firstOrCreate([
+                'user_id' => $merchant_id,
+            ], [
+                'name' => 'Stock access',
+                'secret' => Str::random(40),
+                'redirect' => 'http://localhost',
+                'personal_access_client' => 1,
+                'password_client' => 0,
+                'revoked' => 0
+            ]);
             $info = ApiApp::query()->create([
                 'tenant_id' => $merchant_id,
                 'status' => 1,
