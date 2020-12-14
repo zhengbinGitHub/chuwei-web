@@ -40,13 +40,17 @@ class ProxyController extends Controller
                 'password_client' => 0,
                 'revoked' => 0
             ]);
+            $appid = md5($oauths->secret.'-'.$merchant_id);
             $info = ApiApp::query()->create([
                 'tenant_id' => $merchant_id,
                 'status' => 1,
-                'app_id' => $oauths->secret.'-'.$merchant_id,
+                'app_id' => $appid,
                 'app_secret' => $oauths->secret,
                 'platform' => config('cwapp.app_default_platform')
             ]);
+            if($info){
+                OauthClient::query()->where('id', $oauths->id)->update(['appid' => $appid]);
+            }
         }
         $contents = $this->_getContents($lists, $info??[]);
         return view('cwapp::proxy-client', compact('contents', 'merchant_id'));
