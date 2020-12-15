@@ -36,7 +36,7 @@ class CwAppApiMiddleware
             if(!isset($appInfo->tenant_id)){
                 return $this->returnMsg(0, '应用信息为空');
             }
-            $request->headers->set('tenant_id', $appInfo->tenant_id??0);
+            $request->headers->set('tenantId', $appInfo->tenant_id??0);
             $this->validate($token, $appInfo->app_secret);
         }catch (\Exception $ex){
             return $this->returnMsg(0, $ex->getMessage());
