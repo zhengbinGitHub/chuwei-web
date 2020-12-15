@@ -1,4 +1,4 @@
-# cw100_partner
+# chuwei_web
 通过appid打通商户
 ＃ 应用开发使用说明 
 ＃ 项目下载及配置 
