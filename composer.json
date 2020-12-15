@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "ChuWei\\Client\\Web": "src/"
+            "ChuWei\\Client\\Web\\": "src/"
         }
     },
     "extra": {
