@@ -108,7 +108,7 @@ class ProxyController extends Controller
             if(!$datas['apps']['app_id'][$key] && $datas['apps']['app_secret'][$key]){
                 return response()->json(['status' => 0, 'message' => $datas['apps']['app_secret'][$key].' AppID为空']);
             }
-            $params = ['tenant_id' => $request->tenant_id, 'app_id' => $datas['apps']['app_id'][$key], 'app_secret' => $datas['apps']['app_secret'][$key], 'platform' => $datas['apps']['platform'][$key]];
+            $params = ['tenant_id' => $datas['tenant_id'], 'app_id' => $datas['apps']['app_id'][$key], 'app_secret' => $datas['apps']['app_secret'][$key], 'platform' => $datas['apps']['platform'][$key]];
             if($datas['apps']['id'][$key] == 0){
                 if(!ApiApp::query()->create(array_merge($params, ['status' => 1]))){
                     $isSuccess = false;
@@ -119,7 +119,7 @@ class ProxyController extends Controller
             }
         }
         if($isSuccess){
-            return response()->json(['status' => 1, 'url'=>url('proxy/client', ['merchant_id' => $request->tenant_id]),'message' => '应用配置成功']);
+            return response()->json(['status' => 1, 'url'=>url('proxy/client', ['merchant_id' => $datas['tenant_id']]),'message' => '应用配置成功']);
         }
         return response()->json(['status' => 0, 'message' => '应用配置失败']);
     }
