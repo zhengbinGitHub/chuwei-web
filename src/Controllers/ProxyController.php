@@ -119,7 +119,7 @@ class ProxyController extends Controller
             }
         }
         if($isSuccess){
-            return response()->json(['status' => 1, 'url'=>url('apple/client', ['merchant_id' => $request->tenant_id]),'message' => '应用配置成功']);
+            return response()->json(['status' => 1, 'url'=>url('proxy/client', ['merchant_id' => $request->tenant_id]),'message' => '应用配置成功']);
         }
         return response()->json(['status' => 0, 'message' => '应用配置失败']);
     }
