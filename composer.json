@@ -1,5 +1,5 @@
 {
-    "name": "maczheng/cwapp",
+    "name": "chuwei-client/web",
     "description": "系统应用功能",
     "type": "library",
     "authors": [
@@ -10,12 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "CwApp\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "CwApp\\Tests\\": "tests/"
+            "ChuWei\\Client\\Web": "src/"
         }
     },
     "extra": {

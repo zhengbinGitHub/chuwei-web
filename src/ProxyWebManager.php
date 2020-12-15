@@ -1,6 +1,7 @@
 <?php
-namespace CwApp;
-use CwApp\Models\ApiApp;
+namespace ChuWei\Client\Web;
+
+use ChuWei\Client\Web\Models\ApiApp;
 
 /**
  * Created by PhpStorm.
@@ -9,7 +10,7 @@ use CwApp\Models\ApiApp;
  * Time: 21:51
  */
 
-class ProxyPackageManager
+class ProxyWebManager
 {
     private $config;
 

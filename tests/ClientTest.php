@@ -1,6 +1,6 @@
 <?php
-namespace CwApp\Tests;
-use CwApp\Models\ApiApp;
+namespace ChuWei\Client\Web\Tests;
+use ChuWei\Client\Web\Models\ApiApp;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -6,7 +6,7 @@
  * Time: 18:06
  */
 
-namespace CwApp\Middleware;
+namespace ChuWei\Client\Web\Middleware;
 
 use Closure;
 

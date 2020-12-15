@@ -1,7 +1,7 @@
 <?php
-namespace CwApp;
-use CwApp\Middleware\CwAppApiMiddleware;
-use CwApp\Middleware\CwAppAuthMiddleware;
+namespace ChuWei\Client\Web;
+use ChuWei\Client\Web\Middleware\CwAppApiMiddleware;
+use ChuWei\Client\Web\Middleware\CwAppAuthMiddleware;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -11,7 +11,7 @@ use Illuminate\Support\ServiceProvider;
  * Time: 17:34
  */
 
-class ProxyPackageServiceProvider extends ServiceProvider
+class ProxyWebServiceProvider extends ServiceProvider
 {
     /**
      * 注册信息
@@ -19,13 +19,13 @@ class ProxyPackageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->make('CwApp\Controllers\ProxyController');
+        $this->app->make('ChuWei\Client\Web\Controllers\ProxyController');
         if (! $this->app->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__.'/../config/cwapp.php', 'cwapp');
         }
 
         //注册应用
-        $this->app->singleton('cwapp', function($app){
+        $this->app->singleton('chuwei-web', function($app){
             return new ProxyPackageManager($app['config']);
         });
     }
@@ -57,8 +57,6 @@ class ProxyPackageServiceProvider extends ServiceProvider
 
 
         $this->addMiddlewareAlias('cwapp.auth', CwAppAuthMiddleware::class);
-        $this->addMiddlewareAlias('cwapp-api.auth', CwAppApiMiddleware::class);
-
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
     }
 
@@ -91,6 +89,6 @@ class ProxyPackageServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['cwapp'];
+        return ['chuwei-web'];
     }
 }

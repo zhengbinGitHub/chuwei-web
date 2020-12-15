@@ -13,9 +13,3 @@ Route::group(['namespace' => 'CwApp\Controllers'], function () {
         $router->post('proxy/store', 'ProxyController@store')->name('proxy.store');
     });
 });
-
-//api
-Route::group(['namespace' => 'CwApp\Controllers\Api', 'prefix' => 'api'], function ($router){
-    $router->get('proxy/auth/token', 'AuthTokenController@index');
-    $router->get('test', 'TestController@index')->middleware('cwapp-api.auth');
-});

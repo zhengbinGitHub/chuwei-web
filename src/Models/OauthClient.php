@@ -6,7 +6,7 @@
  * Time: 22:26
  */
 
-namespace CwApp\Models;
+namespace ChuWei\Client\Web\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

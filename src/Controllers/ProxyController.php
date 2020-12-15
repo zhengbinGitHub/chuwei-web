@@ -6,11 +6,11 @@
  * Time: 17:38
  */
 
-namespace CwApp\Controllers;
+namespace ChuWei\Client\Web\Controllers;
 
 
-use CwApp\Models\ApiApp;
-use CwApp\Models\OauthClient;
+use ChuWei\Client\Web\Models\ApiApp;
+use ChuWei\Client\Web\Models\OauthClient;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
