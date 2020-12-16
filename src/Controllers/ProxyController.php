@@ -10,7 +10,9 @@ namespace ChuWei\Client\Web\Controllers;
 
 
 use ChuWei\Client\Web\Models\ApiApp;
+use ChuWei\Client\Web\Models\Merchant;
 use ChuWei\Client\Web\Models\OauthClient;
+use ChuWei\Client\Web\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
@@ -49,11 +51,46 @@ class ProxyController extends Controller
                 'platform' => config('cwapp.app_default_platform')
             ]);
             if($info){
+                if('mall' == config('cwapp.app_default_platform')){
+                    $this->saveMerchant($merchant_id, $oauths->secret);
+                } elseif ('fuwu'  == config('cwapp.app_default_platform')){
+                    $this->saveTenant($merchant_id, $oauths->secret);
+                }
                 OauthClient::query()->where('id', $oauths->id)->update(['appid' => $appid]);
             }
         }
         $contents = $this->_getContents($lists, $info??[]);
         return view('cwapp::proxy-client', compact('contents', 'merchant_id'));
+    }
+
+    /**
+     * @param $merchantId
+     * @param $token
+     */
+    private function saveMerchant($merchantId, $token)
+    {
+        try {
+            $key = Merchant::query()->where('id', $merchantId)->value('key');
+            if (!$key)
+                Merchant::query()->where('id', $merchantId)->update(['key' => $token]);
+        }catch (\Exception $e){
+            return;
+        }
+    }
+
+    /**
+     * @param $tenantId
+     * @param $token
+     */
+    private function saveTenant($tenantId, $token)
+    {
+        try {
+            $key = Tenant::query()->where('id', $tenantId)->value('key');
+            if (!$key)
+                Tenant::query()->where('id', $tenantId)->update(['key' => $token]);
+        }catch (\Exception $e){
+            return;
+        }
     }
 
     /**
