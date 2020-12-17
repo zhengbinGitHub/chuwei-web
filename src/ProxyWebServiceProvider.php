@@ -24,6 +24,11 @@ class ProxyWebServiceProvider extends ServiceProvider
         if (! $this->app->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__.'/../config/cwapp.php', 'cwapp');
         }
+
+        //注册服务
+        $this->app->singleton('proxyweb',function (){
+            return new ProxyWebManage();
+        });
     }
 
     /**
