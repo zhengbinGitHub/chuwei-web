@@ -20,14 +20,10 @@ class ProxyWebServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->make('ChuWei\Client\Web\Controllers\ProxyController');
+        $this->app->make('ChuWei\Client\Web\Controllers\Api\AuthTokenController');
         if (! $this->app->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__.'/../config/cwapp.php', 'cwapp');
         }
-
-        //注册应用
-        $this->app->singleton('chuwei-web', function($app){
-            return new ProxyPackageManager($app['config']);
-        });
     }
 
     /**
@@ -80,15 +76,5 @@ class ProxyWebServiceProvider extends ServiceProvider
     protected function registerMigrations()
     {
         return $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['chuwei-web'];
     }
 }

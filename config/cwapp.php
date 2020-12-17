@@ -6,7 +6,7 @@
  * Time: 18:03
  */
 return [
-    'app_test_url' => env('APP_TEST_URL', 'http://localhost'),
+    'app_token_url' => env('APP_TOKEN_URL', 'http://localhost'),
     'app_test_platform' => env('APP_TEST_PLATFORM', 'fuwu'),
     'app_prefix' => env('APP_PREFIX', ''),
     'app_guard' => env('APP_GUARD', ''),

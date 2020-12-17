@@ -42,7 +42,7 @@ class ProxyController extends Controller
                 'password_client' => 0,
                 'revoked' => 0
             ]);
-            $appid = md5($oauths->secret.'-'.$merchant_id);
+            $appid = md5($oauths->secret.'-'.$merchant_id.'-'.time());
             $info = ApiApp::query()->create([
                 'tenant_id' => $merchant_id,
                 'status' => 1,

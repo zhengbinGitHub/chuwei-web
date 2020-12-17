@@ -13,3 +13,7 @@ Route::group(['namespace' => 'ChuWei\Client\Web\Controllers'], function () {
         $router->post('proxy/store', 'ProxyController@store')->name('proxy.store');
     });
 });
+
+Route::group(['namespace' => 'ChuWei\Client\Web\Controllers\Api', 'prefix' => 'api'], function ($router){
+    $router->get('proxy/auth/token', 'AuthTokenController@index');
+});
