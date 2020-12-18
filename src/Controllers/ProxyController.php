@@ -165,7 +165,7 @@ class ProxyController extends Controller
         $url = config('cwapp.app_check_urls')[$platform]['url']??'';
         if(!$url) return ['status' => 0, 'message' => ''];
         try {
-            $result = $this->curl_request($url . '/' . $appid);
+            $result = $this->curl_request($url . '/proxy/show/' . $appid);
             if(0 == $result['status']){
                 return ['status' => 0, 'message' => $result['message']];
             }
