@@ -190,7 +190,7 @@ class ProxyController extends Controller
         if(!isset($info->id)){
             return response()->json(['status' => 0, 'message' => 'APPID信息不存在']);
         }
-        return response()->json(['status' => 1, 'message' => 'ok', ['app_id' => $info->app_id, 'app_secret' => $info->app_secret]]);
+        return response()->json(['status' => 1, 'message' => 'ok', 'data' => ['app_id' => $info->app_id, 'app_secret' => $info->app_secret]]);
     }
 
     //参数1：访问的URL，参数2：post数据(不填则为GET)，参数3：提交的$cookies,参数4：是否返回$cookies
@@ -224,7 +224,7 @@ class ProxyController extends Controller
             $info['content'] = $body;
             return $info;
         }else{
-          return json_encode($data, true);
+          return json_decode($data, true);
         }
     }
 
