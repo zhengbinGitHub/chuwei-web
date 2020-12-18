@@ -11,6 +11,8 @@ Route::group(['namespace' => 'ChuWei\Client\Web\Controllers'], function () {
         $router->get('proxy/client/{merchant_id}', 'ProxyController@client')->name('proxy.client');
         //保存
         $router->post('proxy/store', 'ProxyController@store')->name('proxy.store');
+        //详情
+        $router->get('proxy/show/{appid}', 'ProxyController@show')->name('proxy.show');
     });
 });
 
