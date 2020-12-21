@@ -41,9 +41,9 @@ class ProxyController extends Controller
             ]);
             if($info){
                 if('mall' == config('cwapp.app_default_platform')){
-                    $this->saveMerchant($merchant_id, $secret);
+                    $this->saveMerchant($merchant_id, 'key', $secret);
                 } elseif ('fuwu'  == config('cwapp.app_default_platform')){
-                    $this->saveTenant($merchant_id, $secret);
+                    $this->saveTenant($merchant_id, 'key', $secret);
                 }
             }
         }
@@ -53,29 +53,32 @@ class ProxyController extends Controller
 
     /**
      * @param $merchantId
-     * @param $token
+     * @param $field
+     * @param $value
      */
-    private function saveMerchant($merchantId, $token)
+    private function saveMerchant($merchantId, $field, $value)
     {
         try {
-            $key = Merchant::query()->where('id', $merchantId)->value('key');
+            $key = Merchant::query()->where('id', $merchantId)->value($field);
             if (!$key)
-                Merchant::query()->where('id', $merchantId)->update(['key' => $token]);
+                Merchant::query()->where('id', $merchantId)->update([$field => $value]);
         }catch (\Exception $e){
             return;
         }
     }
 
     /**
+     * 更新商户
      * @param $tenantId
-     * @param $token
+     * @param $field
+     * @param $value
      */
-    private function saveTenant($tenantId, $token)
+    private function saveTenant($tenantId, $field, $value)
     {
         try {
-            $key = Tenant::query()->where('id', $tenantId)->value('key');
+            $key = Tenant::query()->where('id', $tenantId)->value($field);
             if (!$key)
-                Tenant::query()->where('id', $tenantId)->update(['key' => $token]);
+                Tenant::query()->where('id', $tenantId)->update([$field => $value]);
         }catch (\Exception $e){
             return;
         }
@@ -147,6 +150,11 @@ class ProxyController extends Controller
             } else {
                 ApiApp::query()->where('id', $datas['apps']['id'][$key])->update($params);
             }
+            //开启进销存
+            if('mall' == config('cwapp.app_default_platform') && 'erp' == $datas['apps']['platform'][$key]){
+                $this->saveMerchant($datas['tenant_id'], 'stock', 1);
+            }
+
         }
         if($isSuccess){
             return response()->json(['status' => 1, 'url'=>url('proxy/client', ['merchant_id' => $datas['tenant_id']]),'message' => '应用配置成功']);
